@@ -30,8 +30,6 @@ class Clase(Curso):
         return '- Profesor:'+self.profesor+'\n- Codigo:'+self.codigoC+'\n- Horario:'+str(self.Dhoradia)
 
 
-        
-
 #FUNCIONES MENUw
 
 def IngresarInfoM():
