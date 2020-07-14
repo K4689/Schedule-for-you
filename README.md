@@ -3,9 +3,9 @@
 It's a program that I hope will help me making my schedules por University;  it read a txt  where its all the information and the program take that, make all the posibles Schedule for you and select wich one is more near to your necesities'''
 
 #PARTE LOGICA
-global cursos
+global cursos, horarios
 cursos=[]
-
+horarios=[]
 
 class Curso:
     def __init__(self,codigo,nombre,creditos):
@@ -29,6 +29,16 @@ class Clase(Curso):
     def __str__ (self):
         return '- Profesor:'+self.profesor+'\n- Codigo:'+self.codigoC+'\n- Horario:'+str(self.Dhoradia)
 
+class Horario():
+    Creados=0
+    def __init__(self,dias,horaI,horaF): #criterios para hacer plantilla horario
+        self.creditos=0
+        self.clases=[]
+        Horario.Creados+=1
+        self.numeroH=Horario.Creados
+        self.horas=horaF-horaI
+        self.shedule=[[None for i in range(self.horas)]for j in range(dias)]
+        
 
 #FUNCIONES MENUw
 
@@ -139,7 +149,57 @@ def ModificarInfo():
     op='3'
     return op
 
+def CrearHorarios():
+    print("*Aqui se haran los horarios")
+    op='4'
+    asignada=False 
 
+    horarioN=Horario(6,7,17)
+    horarios.append(horarioN)
+    dias={"Lunes":0,"Martes":1,"Miercoles":2,"Jueves":3,"Viernes":4,"Sabado":5,"Domingo":6}
+
+    horas=[x for x in range(7,22)]
+    horasF=[f for f in range(15)]
+    horasDiccio=dict(zip(horas,horasF))
+    print(horasDiccio)
+
+    for i in range(len(cursos)):
+        for j in range(len(cursos[i].clases)):
+            for k in range(len(horarios)):
+                print("recorre uno")
+
+                if cursos[i].clases[j].codigoC in horarios[k].clases:
+                    break
+                else: 
+                    asignada=True
+                    print("aqui no esta la clase")
+                    #print(cursos[i].clases[j].Dhoradia)
+                    dia=cursos[i].clases[j].Dhoradia.keys()
+                    dia=list(dia)
+                    codigo=[]
+                    
+                    for l in range(len(dia)):
+                        codigo.append(dias[dia[l]])
+                    print("codigo:",codigo)
+        
+                    for m in range(len(dia)):
+                        hora=cursos[i].clases[j].Dhoradia[dia[m]]
+                        inicio=hora[0]
+                        fin=hora[1]
+                        print("dia:",codigo[m])
+                        print("I:",inicio,"F:",fin)
+                        Ninicio=horasDiccio[inicio]
+                        Nfin=horasDiccio[fin]
+                        print("IN:",Ninicio,"FN:",Nfin)
+                        
+                        horaT=fin-inicio
+                
+                        while Ninicio<Nfin:
+                            horarios[k].shedule[codigo[0]][Ninicio]=cursos[i].clases[j].codigoC
+                            Ninicio+=1
+                            print("OK OK OK OK")
+    print(horarios[0].shedule)            
+    #return op
 
 def BuscarInfo(): #esta funcion le das el codigo de la clase y te retorna informacion 
     # mas precisa de la clases y el curso
@@ -166,7 +226,7 @@ def menu (opcion):
 #SECCION DE PRUEBA DE FUNCIONES 
 print("INICIA")
 IngresarInfoA()
-
+CrearHorarios()
 
 
 
